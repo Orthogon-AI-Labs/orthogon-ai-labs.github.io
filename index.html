@@ -4,129 +4,279 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Orthogon AI Labs</title>
-<meta name="description" content="Orthogon is an applied AI lab in New York. It builds multi-agent systems that work inside real businesses, and open-sources its verification tooling." />
+<meta name="description" content="An applied AI lab in New York. Building AI systems and agents that work." />
 <link rel="canonical" href="https://orthogon-ai-labs.github.io/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Orthogon AI Labs" />
-<meta property="og:description" content="Agent systems that do real work. The agent that writes never grades its own work — the verification tooling is open source." />
+<meta property="og:description" content="Building AI systems and agents that work." />
 <meta property="og:url" content="https://orthogon-ai-labs.github.io/" />
 <link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Crect width="32" height="32" rx="7" fill="%230c0e12"/%3E%3Cpath d="M10 6 V22 H26" stroke="%235f9efb" stroke-width="2.6" fill="none"/%3E%3Cpath d="M10 14.5 H17.5 V22" stroke="%235f9efb" stroke-width="1.6" fill="none" opacity="0.65"/%3E%3C/svg%3E' />
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
   :root{
-    --page:#05070a;--t1:#d8dbe2;--t2:#8b909c;--t3:#5a5f6b;
-    --line:rgba(255,255,255,0.07);--acc:#5f9efb;
+    --page:#05070a;--t1:#e6e9ef;--t2:#8b909c;--t3:#565b66;
+    --acc:#5f9efb;
     --mono:ui-monospace,'JetBrains Mono','SF Mono',Menlo,monospace;
     --sans:'Inter',-apple-system,system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;background:var(--page);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  html,body{margin:0;height:100%;background:var(--page);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
   ::selection{background:rgba(95,158,251,0.28)}
-  a{color:var(--acc);text-decoration:none}
-  a:hover{text-decoration:underline;text-underline-offset:3px}
-  .page{max-width:680px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
 
-  header{display:flex;align-items:center;gap:10px;padding:34px 0 0}
-  .mark{width:20px;height:20px;flex:0 0 auto}
-  .name{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.08em;color:var(--t1)}
-  .name span{color:var(--t3)}
-  header .gh{margin-left:auto;font-family:var(--mono);font-size:12px}
+  #field{position:fixed;inset:0;width:100%;height:100%;display:block}
 
-  main{padding:88px 0 40px}
-  h1{margin:0;font-size:clamp(27px,4.5vw,36px);line-height:1.15;letter-spacing:-0.015em;font-weight:600}
-  .lede{margin:20px 0 0;font-size:15.5px;line-height:1.7;color:var(--t2)}
-  .lede b{color:var(--t1);font-weight:500}
-  .rule{margin:18px 0 0;font-size:15.5px;line-height:1.7;color:var(--t2)}
-  .rule .perp{font-family:var(--mono);color:var(--acc)}
+  .veil{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 62% 52% at 50% 46%,rgba(5,7,10,0.86) 0%,rgba(5,7,10,0.42) 52%,rgba(5,7,10,0) 76%)}
+  .edge{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 140% 120% at 50% 50%,rgba(5,7,10,0) 62%,rgba(5,7,10,0.75) 100%)}
 
-  .lab{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin:60px 0 6px}
-  .rows{border-top:1px solid var(--line)}
-  .rowitem{display:flex;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.6}
-  .rowitem .k{font-family:var(--mono);font-size:12.5px;color:var(--t1);flex:0 0 148px}
-  .rowitem .d{color:var(--t2);flex:1}
-  a.rowitem{color:inherit}
-  a.rowitem:hover{text-decoration:none;background:rgba(255,255,255,0.02)}
-  a.rowitem:hover .k{color:var(--acc)}
-  a.rowitem .ar{font-family:var(--mono);font-size:12px;color:var(--t3);flex:0 0 auto}
-  a.rowitem:hover .ar{color:var(--acc)}
-  .aside{margin:10px 0 0;font-size:12.5px;color:var(--t3)}
+  .stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+  .mark{width:46px;height:46px}
+  .mark path{stroke-dasharray:70;stroke-dashoffset:70;animation:draw 1.1s cubic-bezier(.6,0,.2,1) .25s forwards}
+  .mark path.inner{animation-delay:.75s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .lab{margin-top:22px;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.34em;text-indent:.34em;color:var(--t2);text-transform:uppercase;
+    opacity:0;animation:rise .9s ease 1.05s forwards}
+  h1{margin:18px 0 0;font-weight:500;font-size:clamp(30px,5.6vw,54px);line-height:1.14;letter-spacing:-0.025em;color:var(--t1)}
+  h1 .l{display:block;opacity:0;animation:rise 1s cubic-bezier(.2,.6,.2,1) forwards}
+  h1 .l:nth-child(1){animation-delay:1.35s}
+  h1 .l:nth-child(2){animation-delay:1.55s}
+  h1 .w{color:var(--acc);position:relative;white-space:nowrap}
+  h1 .w::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:1px;background:var(--acc);opacity:.55;
+    transform:scaleX(0);transform-origin:left;animation:underline .8s cubic-bezier(.6,0,.2,1) 2.5s forwards}
+  @keyframes underline{to{transform:scaleX(1)}}
+  .links{margin-top:34px;display:flex;gap:26px;opacity:0;animation:rise .9s ease 2.15s forwards}
+  .links a{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--t2);padding:2px 0;border-bottom:1px solid transparent}
+  .links a:hover{color:var(--acc);border-bottom-color:rgba(95,158,251,0.5)}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-  footer{display:flex;align-items:center;gap:12px;padding:30px 0 44px;border-top:1px solid var(--line);margin-top:56px}
-  footer .fmark{width:14px;height:14px;opacity:.65}
-  footer .cp{font-size:12px;color:var(--t3)}
-  footer .links{margin-left:auto;display:flex;gap:16px;font-family:var(--mono);font-size:12px}
+  .strip{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;padding:16px 20px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--t3);text-transform:uppercase;
+    opacity:0;animation:rise 1s ease 2.7s forwards}
+  .strip .perp{color:var(--acc);animation:pulse 5.5s ease-in-out 3.5s infinite}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+  .strip .right{margin-left:auto}
 
+  @media (prefers-reduced-motion:reduce){
+    .mark path{animation:none;stroke-dashoffset:0}
+    .lab,h1 .l,.links,.strip{animation:none;opacity:1;transform:none}
+    h1 .w::after{animation:none;transform:scaleX(1)}
+    .strip .perp{animation:none}
+  }
   @media (max-width:560px){
-    main{padding:64px 0 24px}
-    .rowitem{flex-direction:column;gap:4px}
-    .rowitem .k{flex:none}
-    .rowitem .ar{display:none}
+    .mark{width:38px;height:38px}
+    .links{gap:20px}
+    .strip{padding:14px 16px;font-size:9px;letter-spacing:.09em}
   }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <header>
-    <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="3"/>
-      <path d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="1.7" opacity="0.65"/>
-    </svg>
-    <span class="name">ORTHOGON AI <span>LABS</span></span>
-    <a class="gh" href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">github ↗</a>
-  </header>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="edge" aria-hidden="true"></div>
 
-  <main>
-    <h1>Agent systems that do real work.</h1>
+<main class="stage">
+  <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+    <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="2.4"/>
+    <path class="inner" d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="1.4" opacity="0.65"/>
+  </svg>
+  <div class="lab">Orthogon AI Labs</div>
+  <h1>
+    <span class="l">Building AI systems</span>
+    <span class="l">and agents that <span class="w">work</span>.</span>
+  </h1>
+  <nav class="links" aria-label="Contact">
+    <a href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">github ↗</a>
+    <a href="mailto:noahbfreedman@gmail.com">contact ↗</a>
+  </nav>
+</main>
 
-    <p class="lede">Orthogon is an applied AI lab in New York, run by <b>Noah Freedman</b>. It builds multi-agent systems and puts them to work inside real businesses — where the paperwork is binding and the content actually gets published.</p>
-
-    <p class="rule">The house rule is orthogonality: <b class="perp">generation ⊥ verification</b> — the agent that writes never grades its own work. Every claim has to survive a check it didn't write, which is why the checking tools are the part that's public.</p>
-
-    <div class="lab">Current work</div>
-    <div class="rows">
-      <div class="rowitem"><span class="k">leasing</span><span class="d">Automation for New York rental paperwork — application in, signature-ready package out.</span></div>
-      <div class="rowitem"><span class="k">editorial</span><span class="d">A desk of writing agents whose drafts face independent judges before anything publishes.</span></div>
-      <div class="rowitem"><span class="k">world model</span><span class="d">A building-by-building model of Manhattan real estate for agents to reason against.</span></div>
-    </div>
-    <p class="aside">Client systems are private. The open tooling is below.</p>
-
-    <div class="lab">Open source</div>
-    <div class="rows">
-      <a class="rowitem" href="https://github.com/Orthogon-AI-Labs/agent-verify" target="_blank" rel="noopener">
-        <span class="k">verify</span>
-        <span class="d">Checks what a coding agent claims it did — tests, files, commits, secrets — against what actually happened, and makes it correct the record.</span>
-        <span class="ar">↗</span>
-      </a>
-      <a class="rowitem" href="https://github.com/Orthogon-AI-Labs/canon" target="_blank" rel="noopener">
-        <span class="k">canon</span>
-        <span class="d">The canonical Claude Code setup: a human-curated memory trio, a research-grounded planning loop, and hooks that keep the discipline from rotting.</span>
-        <span class="ar">↗</span>
-      </a>
-    </div>
-
-    <div class="lab">Contact</div>
-    <div class="rows">
-      <a class="rowitem" href="mailto:noahbfreedman@gmail.com">
-        <span class="k">email</span>
-        <span class="d">noahbfreedman@gmail.com</span>
-        <span class="ar">↗</span>
-      </a>
-    </div>
-  </main>
-
-  <footer>
-    <svg class="fmark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="3"/>
-      <path d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="1.7" opacity="0.65"/>
-    </svg>
-    <span class="cp">© 2026 Orthogon AI Labs · New York</span>
-    <div class="links">
-      <a href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">github</a>
-      <a href="mailto:noahbfreedman@gmail.com">email</a>
-    </div>
-  </footer>
-
+<div class="strip" aria-hidden="true">
+  <span>generation <span class="perp">⊥</span> verification</span>
+  <span class="right">new york city</span>
 </div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Orthogon AI Labs","url":"https://orthogon-ai-labs.github.io/","sameAs":["https://github.com/Orthogon-AI-Labs"],"description":"An applied AI lab in New York. Building AI systems and agents that work."}
+</script>
+
+<script>
+(function(){
+  var canvas = document.getElementById('field');
+  var ctx = canvas.getContext('2d');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var PAGE = '#05070a';
+  var W = 0, H = 0, DPR = 1, PITCH = 30;
+  var particles = [], flashes = [];
+  var mouse = {x: -1e4, y: -1e4};
+  var raf = null, lastT = 0;
+
+  function sizes(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    PITCH = W < 560 ? 24 : 30;
+    ctx.fillStyle = PAGE; ctx.fillRect(0, 0, W, H);
+    paintGrid();
+  }
+
+  // faint static lattice so the geometry reads even where no pulse has been
+  function paintGrid(){
+    ctx.strokeStyle = 'rgba(255,255,255,0.022)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (var x = 0; x <= W; x += PITCH){ ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+    for (var y = 0; y <= H; y += PITCH){ ctx.moveTo(0, y); ctx.lineTo(W, y); }
+    ctx.stroke();
+  }
+
+  var DIRS = [[1,0],[0,1],[-1,0],[0,-1]];
+
+  function targetCount(){
+    return Math.max(26, Math.min(90, Math.round(W * H / 22000)));
+  }
+
+  function spawn(nx, ny, dir){
+    var cols = Math.floor(W / PITCH), rows = Math.floor(H / PITCH);
+    if (nx == null){ nx = 1 + Math.floor(Math.random() * (cols - 1)); ny = 1 + Math.floor(Math.random() * (rows - 1)); }
+    var d = dir != null ? dir : Math.floor(Math.random() * 4);
+    var hot = Math.random() < 0.10;
+    return {
+      x: nx * PITCH, y: ny * PITCH, dir: d,
+      speed: 34 + Math.random() * 34,
+      rem: PITCH,
+      life: 7 + Math.random() * 9,
+      hot: hot,
+      dim: !hot && Math.random() < 0.45
+    };
+  }
+
+  function seed(){
+    particles = [];
+    var n = targetCount();
+    for (var i = 0; i < n; i++) particles.push(spawn());
+  }
+
+  function step(dt){
+    // fade previous frame toward page color; trails dissolve over ~3s
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(5,7,10,0.055)';
+    ctx.fillRect(0, 0, W, H);
+
+    var i, p;
+    for (i = particles.length - 1; i >= 0; i--){
+      p = particles[i];
+      p.life -= dt;
+      if (p.life <= 0){ particles[i] = spawn(); continue; }
+
+      var travel = p.speed * dt;
+      var near = Math.abs(p.x - mouse.x) < 130 && Math.abs(p.y - mouse.y) < 130;
+      if (near) travel *= 1.8;
+
+      while (travel > 0){
+        var move = Math.min(travel, p.rem);
+        var d = DIRS[p.dir];
+        var x0 = p.x, y0 = p.y;
+        p.x += d[0] * move; p.y += d[1] * move;
+        p.rem -= move; travel -= move;
+
+        // trace segment
+        var a = p.hot ? 0.75 : (p.dim ? 0.16 : 0.34);
+        if (near) a = Math.min(1, a + 0.25);
+        ctx.strokeStyle = p.hot ? 'rgba(151,193,252,' + a + ')' : 'rgba(95,158,251,' + a + ')';
+        ctx.lineWidth = p.hot || near ? 1.5 : 1;
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(p.x, p.y); ctx.stroke();
+
+        if (p.rem <= 0.01){
+          // at a node: wrap, then decide course
+          if (p.x < -PITCH) p.x = W + PITCH; else if (p.x > W + PITCH) p.x = -PITCH;
+          if (p.y < -PITCH) p.y = H + PITCH; else if (p.y > H + PITCH) p.y = -PITCH;
+          var r = Math.random();
+          if (r < 0.42){
+            p.dir = (p.dir + (Math.random() < 0.5 ? 1 : 3)) % 4;
+            if (Math.random() < 0.16) flashes.push({x: p.x, y: p.y, t: 0, big: false});
+          }
+          p.rem = PITCH;
+        }
+      }
+    }
+
+    // heads + flashes, additive
+    ctx.globalCompositeOperation = 'lighter';
+    for (i = 0; i < particles.length; i++){
+      p = particles[i];
+      var s = p.hot ? 2.4 : 1.7;
+      ctx.fillStyle = p.hot ? 'rgba(226,238,255,0.95)' : 'rgba(151,193,252,0.75)';
+      ctx.fillRect(p.x - s / 2, p.y - s / 2, s, s);
+    }
+    for (i = flashes.length - 1; i >= 0; i--){
+      var f = flashes[i];
+      f.t += dt * (f.big ? 1.4 : 2.4);
+      if (f.t >= 1){ flashes.splice(i, 1); continue; }
+      var size = 3 + f.t * (f.big ? 30 : 11);
+      ctx.strokeStyle = 'rgba(151,193,252,' + (0.5 * (1 - f.t)) + ')';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(f.x - size / 2, f.y - size / 2, size, size);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame(t){
+    raf = requestAnimationFrame(frame);
+    var dt = Math.min((t - lastT) / 1000, 0.05);
+    lastT = t;
+    if (dt > 0) step(dt);
+  }
+
+  function start(){
+    if (raf == null){ lastT = performance.now(); raf = requestAnimationFrame(frame); }
+  }
+  function stop(){
+    if (raf != null){ cancelAnimationFrame(raf); raf = null; }
+  }
+
+  sizes(); seed();
+
+  // debug/verification handle — lets tooling drive the sim without rAF
+  window.__orthogon = { step: step, seed: seed, count: function(){ return particles.length; } };
+
+  if (reduced){
+    // no motion: render one settled web of traces, then stay still
+    for (var k = 0; k < 520; k++) step(1 / 60);
+  } else {
+    start();
+    document.addEventListener('visibilitychange', function(){
+      document.hidden ? stop() : start();
+    });
+  }
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){ sizes(); seed(); if (reduced){ for (var k = 0; k < 520; k++) step(1 / 60); } }, 150);
+  });
+
+  window.addEventListener('pointermove', function(e){ mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('pointerleave', function(){ mouse.x = -1e4; mouse.y = -1e4; });
+
+  // click: four pulses leave the nearest intersection, one per direction
+  window.addEventListener('pointerdown', function(e){
+    var nx = Math.round(e.clientX / PITCH), ny = Math.round(e.clientY / PITCH);
+    for (var d = 0; d < 4; d++){
+      var p = spawn(nx, ny, d);
+      p.hot = true; p.dim = false; p.life = 5 + Math.random() * 4;
+      particles.push(p);
+    }
+    flashes.push({x: nx * PITCH, y: ny * PITCH, t: 0, big: true});
+    while (particles.length > targetCount() + 40) particles.shift();
+    if (reduced) for (var k = 0; k < 200; k++) step(1 / 60);
+  });
+})();
+</script>
+
 </body>
 </html>
