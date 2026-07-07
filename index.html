@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orthogon AI — Applied AI Lab, New York</title>
+<meta name="description" content="Orthogon AI Labs designs, builds, and operates multi-agent systems inside real businesses — world models, agent operations, and verification tooling. Generation ⊥ verification." />
+<link rel="canonical" href="https://orthogon-ai-labs.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Orthogon AI — Applied AI Lab, New York" />
+<meta property="og:description" content="Agent systems that do real work. World models, agent operations, and verification tooling — every claim has to survive a check it didn't write." />
+<meta property="og:url" content="https://orthogon-ai-labs.github.io/" />
+<link rel="icon" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Crect width="32" height="32" rx="7" fill="%230c0e12"/%3E%3Cpath d="M10 6 V22 H26" stroke="%235f9efb" stroke-width="2.6" fill="none"/%3E%3Cpath d="M10 14.5 H17.5 V22" stroke="%235f9efb" stroke-width="1.6" fill="none" opacity="0.65"/%3E%3C/svg%3E' />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root{
+    --page:#05070a;--bg:#0c0e12;--panel:#10131a;--row:#15171e;--row-hi:#1a1d25;
+    --line:rgba(255,255,255,0.06);--line-2:rgba(255,255,255,0.11);
+    --t1:#d8dbe2;--t2:#8b909c;--t3:#5a5f6b;
+    --acc:#5f9efb;--acc-tint:rgba(95,158,251,0.12);--acc-line:rgba(95,158,251,0.5);
+    --ok:#5fd08a;--ok-line:rgba(95,208,138,0.4);--warn:#eab05a;--warn-line:rgba(234,176,90,0.4);
+    --mono:ui-monospace,'JetBrains Mono','SF Mono',Menlo,monospace;
+    --sans:'Inter',-apple-system,system-ui,sans-serif;
+    --maxw:1060px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{margin:0;background:var(--page);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(95,158,251,0.28)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  /* ---------- nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(5,7,10,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;letter-spacing:.02em}
+  .brand .mark{width:22px;height:22px;display:block}
+  .brand .labs{color:var(--t3);font-weight:500}
+  .navlinks{display:flex;gap:4px;margin-left:auto}
+  .navlinks a{font-size:12.5px;color:var(--t2);padding:6px 10px;border-radius:7px}
+  .navlinks a:hover{color:var(--t1);background:var(--row)}
+  .gh{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--acc);border:1px solid var(--acc-line);background:var(--acc-tint);border-radius:7px;padding:6px 11px;white-space:nowrap}
+  .gh:hover{background:rgba(95,158,251,0.2)}
+  .gh svg{width:13px;height:13px;flex:0 0 auto}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero::before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);
+    background-size:54px 54px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 35%,transparent 78%);
+    mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 35%,transparent 78%);}
+  .hero::after{content:"";position:absolute;top:-220px;left:50%;transform:translateX(-50%);width:820px;height:460px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(95,158,251,0.13),transparent);pointer-events:none}
+  .hero .wrap{position:relative;padding-top:96px;padding-bottom:104px}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+  .eyebrow b{color:var(--acc);font-weight:500}
+  .hero h1{margin:20px 0 0;font-size:clamp(34px,6vw,58px);line-height:1.06;letter-spacing:-0.022em;font-weight:700;max-width:760px}
+  .hero h1 .dim{color:var(--t3)}
+  .hero p{margin:22px 0 0;max-width:640px;font-size:16.5px;line-height:1.65;color:var(--t2)}
+  .hero p b{color:var(--t1);font-weight:500}
+  .ctas{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;border-radius:9px;padding:10px 16px;border:1px solid var(--line-2);background:var(--row);color:var(--t1)}
+  .btn:hover{background:var(--row-hi);border-color:var(--line-2)}
+  .btn.primary{background:var(--acc);border-color:var(--acc);color:#07101f}
+  .btn.primary:hover{background:#77adfc}
+  .btn .ar{font-family:var(--mono)}
+  .heromark{position:absolute;right:-40px;bottom:-70px;width:380px;height:380px;opacity:.14;pointer-events:none}
+
+  /* ---------- sections ---------- */
+  section{border-bottom:1px solid var(--line)}
+  .sect{padding:78px 0}
+  .shead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .snum{font-family:var(--mono);font-size:11px;color:var(--acc)}
+  .slab{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+  .stitle{margin:14px 0 0;font-size:clamp(24px,3.4vw,32px);font-weight:700;letter-spacing:-0.015em}
+  .ssub{margin:12px 0 0;max-width:640px;font-size:15px;line-height:1.65;color:var(--t2)}
+
+  /* focus cards */
+  .cards{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{border:1px solid var(--line-2);border-radius:12px;background:var(--bg);padding:22px 20px;position:relative;overflow:hidden;transition:border-color .2s}
+  .card:hover{border-color:var(--acc-line)}
+  .card .cnum{font-family:var(--mono);font-size:11px;color:var(--acc)}
+  .card h3{margin:12px 0 0;font-size:17px;font-weight:600;letter-spacing:-0.01em}
+  .card p{margin:10px 0 0;font-size:13.5px;line-height:1.62;color:var(--t2)}
+  .card .glyph{position:absolute;top:16px;right:16px;width:30px;height:30px;opacity:.5}
+
+  /* systems index */
+  .index{margin-top:40px;border:1px solid var(--line-2);border-radius:12px;background:var(--bg);overflow:hidden}
+  .ixhead{display:grid;grid-template-columns:200px 1fr 130px 110px;gap:16px;padding:10px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);background:var(--panel)}
+  .row{display:grid;grid-template-columns:200px 1fr 130px 110px;gap:16px;padding:15px 18px;border-bottom:1px solid var(--line);align-items:baseline;transition:background .15s}
+  .row:last-child{border-bottom:none}
+  .row:hover{background:var(--row)}
+  .row .name{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--t1)}
+  .row .desc{font-size:13px;line-height:1.55;color:var(--t2)}
+  .row .dom{font-family:var(--mono);font-size:10.5px;color:var(--t3)}
+  .chip{justify-self:start;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line-2);color:var(--t3);white-space:nowrap}
+  .chip.pilot{color:var(--warn);border-color:var(--warn-line)}
+  .chip.demo{color:var(--acc);border-color:var(--acc-line)}
+  .chip.oss{color:var(--ok);border-color:var(--ok-line)}
+  .ixnote{margin-top:14px;font-size:12.5px;color:var(--t3)}
+  .ixnote a{color:var(--acc)}
+
+  /* approach */
+  .prins{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .prin{border:1px solid var(--line-2);border-radius:12px;background:var(--bg);padding:22px 20px;transition:border-color .2s}
+  .prin:hover{border-color:var(--acc-line)}
+  .prin .pnum{font-family:var(--mono);font-size:11px;color:var(--acc)}
+  .prin h3{margin:12px 0 0;font-size:16.5px;font-weight:600;letter-spacing:-0.01em}
+  .prin h3 .perp{color:var(--acc);font-family:var(--mono);font-weight:500}
+  .prin p{margin:10px 0 0;font-size:13.5px;line-height:1.62;color:var(--t2)}
+
+  /* open source */
+  .oss{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .repo{border:1px solid var(--line-2);border-radius:12px;background:var(--bg);padding:22px 20px;display:flex;flex-direction:column;gap:0;transition:border-color .2s,background .2s}
+  .repo:hover{border-color:var(--acc-line);background:var(--panel)}
+  .repohead{display:flex;align-items:center;gap:9px}
+  .repohead svg{width:15px;height:15px;color:var(--t3);flex:0 0 auto}
+  .repohead .rname{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--t1)}
+  .repohead .chip{margin-left:auto}
+  .repo p{margin:12px 0 0;font-size:13.5px;line-height:1.62;color:var(--t2)}
+  .repo .rlink{margin-top:16px;font-family:var(--mono);font-size:11.5px;color:var(--acc)}
+
+  /* contact */
+  .contact .wrap{display:flex;flex-direction:column;align-items:flex-start}
+  .contact .stitle{max-width:560px}
+  .contact .ssub{max-width:560px}
+
+  /* footer */
+  footer{padding:26px 0 34px}
+  footer .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  footer .fmark{width:16px;height:16px;opacity:.7}
+  footer .cp{font-size:12px;color:var(--t3)}
+  footer .flinks{margin-left:auto;display:flex;gap:16px}
+  footer .flinks a{font-family:var(--mono);font-size:11.5px;color:var(--t3)}
+  footer .flinks a:hover{color:var(--acc)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rv{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    .cards{grid-template-columns:1fr}
+    .prins{grid-template-columns:1fr}
+    .oss{grid-template-columns:1fr}
+    .heromark{display:none}
+  }
+  @media (max-width:760px){
+    .navlinks{display:none}
+    .ixhead{display:none}
+    .row{grid-template-columns:1fr auto;grid-template-areas:"name chip" "desc desc" "dom dom";row-gap:7px}
+    .row .name{grid-area:name}.row .desc{grid-area:desc}.row .dom{grid-area:dom}.row .chip{grid-area:chip;justify-self:end}
+    .hero .wrap{padding-top:70px;padding-bottom:76px}
+    .sect{padding:60px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Orthogon AI — home">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="3"/>
+        <path d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="1.7" opacity="0.65"/>
+      </svg>
+      ORTHOGON&nbsp;AI <span class="labs">LABS</span>
+    </a>
+    <div class="navlinks">
+      <a href="#focus">Focus</a>
+      <a href="#systems">Systems</a>
+      <a href="#approach">Approach</a>
+      <a href="#oss">Open source</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="gh" href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      Orthogon-AI-Labs
+    </a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <svg class="heromark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+    <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="1"/>
+    <path d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="0.5" opacity="0.7"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow rv">APPLIED AI LAB · <b>NEW YORK</b> · EST. 2026</div>
+    <h1 class="rv">Agent systems that<br/>do real work<span class="dim">.</span></h1>
+    <p class="rv">Orthogon AI Labs designs, builds, and operates multi-agent systems inside real businesses — where the paperwork is binding, the content gets published, and <b>every claim has to survive a check it didn't write</b>.</p>
+    <div class="ctas rv">
+      <a class="btn primary" href="#focus">What we build <span class="ar">↓</span></a>
+      <a class="btn" href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">Open source <span class="ar">→</span></a>
+    </div>
+  </div>
+</header>
+
+<section id="focus">
+  <div class="wrap sect">
+    <div class="shead rv"><span class="snum">01</span><span class="slab">Focus</span></div>
+    <h2 class="stitle rv">Three axes, kept independent.</h2>
+    <p class="ssub rv">Everything the lab runs is built from the same three kinds of parts: a model of the world to reason against, agents that do the work, and verifiers that hold the work to a standard.</p>
+    <div class="cards">
+      <div class="card rv">
+        <svg class="glyph" viewBox="0 0 30 30" fill="none" aria-hidden="true"><rect x="4" y="4" width="9" height="9" stroke="#5f9efb" stroke-width="1.2"/><rect x="17" y="4" width="9" height="9" stroke="#5a5f6b" stroke-width="1.2"/><rect x="4" y="17" width="9" height="9" stroke="#5a5f6b" stroke-width="1.2"/><rect x="17" y="17" width="9" height="9" stroke="#5f9efb" stroke-width="1.2"/></svg>
+        <div class="cnum">/01</div>
+        <h3>World models</h3>
+        <p>Deep, queryable models of real-world domains — starting with Manhattan real estate, building by building — that give agents ground truth to reason and act against instead of guessing from thin context.</p>
+      </div>
+      <div class="card rv">
+        <svg class="glyph" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M4 15 H12 M18 15 H26 M15 4 V12 M15 18 V26" stroke="#5f9efb" stroke-width="1.2"/><circle cx="15" cy="15" r="3.5" stroke="#5a5f6b" stroke-width="1.2"/></svg>
+        <div class="cnum">/02</div>
+        <h3>Agent operations</h3>
+        <p>Multi-agent pipelines that run daily work end to end — leasing paperwork from application to signature-ready package, editorial desks that draft and revise long-form content to publication grade.</p>
+      </div>
+      <div class="card rv">
+        <svg class="glyph" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M5 16 L12 23 L25 7" stroke="#5f9efb" stroke-width="1.4"/><path d="M5 8 H11 M5 12 H9" stroke="#5a5f6b" stroke-width="1.2"/></svg>
+        <div class="cnum">/03</div>
+        <h3>Verification &amp; evals</h3>
+        <p>Independent judges, frozen replay benchmarks, and post-write checks. The agent that writes is never the agent that grades — and no system ships on a demo and a good feeling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="systems">
+  <div class="wrap sect">
+    <div class="shead rv"><span class="snum">02</span><span class="slab">Systems</span></div>
+    <h2 class="stitle rv">A working index.</h2>
+    <p class="ssub rv">What's running, what's in pilot, and what's still research. Statuses are kept honest — a number only counts here if it would survive the lab's own verifiers.</p>
+    <div class="index rv">
+      <div class="ixhead"><span>System</span><span>What it does</span><span>Domain</span><span>Status</span></div>
+      <div class="row">
+        <span class="name">lease-desk</span>
+        <span class="desc">Leasing automation: application in — verified deal sheet and signature-ready package out.</span>
+        <span class="dom">real estate</span>
+        <span class="chip pilot">PILOT</span>
+      </div>
+      <div class="row">
+        <span class="name">content-swarm</span>
+        <span class="desc">An editorial desk of agents that drafts local content, then submits it to independent post-write judges.</span>
+        <span class="dom">editorial</span>
+        <span class="chip pilot">PILOT</span>
+      </div>
+      <div class="row">
+        <span class="name">world-model / manhattan</span>
+        <span class="desc">A building-by-building model of Manhattan real estate that agents query for ground truth.</span>
+        <span class="dom">real estate</span>
+        <span class="chip demo">DEMO</span>
+      </div>
+      <div class="row">
+        <span class="name">replay-benchmark</span>
+        <span class="desc">Frozen replay benchmarks that hold recommendation quality to a test that can't move after the fact.</span>
+        <span class="dom">evals</span>
+        <span class="chip">INTERNAL</span>
+      </div>
+      <div class="row">
+        <span class="name">shelfai</span>
+        <span class="desc">The document-ops layer for agent context: abstracts, chunking, and a learning loop for skill files.</span>
+        <span class="dom">infrastructure</span>
+        <span class="chip">RESEARCH</span>
+      </div>
+      <div class="row">
+        <span class="name">scisearch</span>
+        <span class="desc">Retrieval and synthesis over clinical oncology literature.</span>
+        <span class="dom">health</span>
+        <span class="chip">RESEARCH</span>
+      </div>
+    </div>
+    <p class="ixnote rv">Client systems are private. The open-source work is <a href="#oss">below ↓</a></p>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="wrap sect">
+    <div class="shead rv"><span class="snum">03</span><span class="slab">Approach</span></div>
+    <h2 class="stitle rv">Orthogonal by design.</h2>
+    <p class="ssub rv">The lab is named for its operating principle: the axes stay independent. Four rules, applied to everything we ship.</p>
+    <div class="prins">
+      <div class="prin rv">
+        <div class="pnum">/01</div>
+        <h3>Generation <span class="perp">⊥</span> verification</h3>
+        <p>The writer never grades its own work. When a check fails, the failure makes the <em>checks</em> better — it doesn't get folded back into the writer's prompt until the writer learns to game the test.</p>
+      </div>
+      <div class="prin rv">
+        <div class="pnum">/02</div>
+        <h3>Frozen benchmarks, honest claims</h3>
+        <p>Before we tune, we freeze the test. An improvement only counts if it's measured against a benchmark that couldn't move to produce it — and claims never outrun the data.</p>
+      </div>
+      <div class="prin rv">
+        <div class="pnum">/03</div>
+        <h3>Production is the demo</h3>
+        <p>Systems run inside operating businesses, on live work, with real consequences. If it only works in a notebook, it doesn't work.</p>
+      </div>
+      <div class="prin rv">
+        <div class="pnum">/04</div>
+        <h3>Small systems, sharp seams</h3>
+        <p>Independent components with explicit contracts. They compose cleanly, they fail legibly, and any one of them can be replaced without renegotiating the whole.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oss">
+  <div class="wrap sect">
+    <div class="shead rv"><span class="snum">04</span><span class="slab">Open source</span></div>
+    <h2 class="stitle rv">Tools we run, released.</h2>
+    <p class="ssub rv">The verification doctrine isn't proprietary — it's the point. The parts of the stack that make agents trustworthy are public.</p>
+    <div class="oss">
+      <a class="repo rv" href="https://github.com/Orthogon-AI-Labs/agent-verify" target="_blank" rel="noopener">
+        <div class="repohead">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></svg>
+          <span class="rname">verify</span>
+          <span class="chip oss">OPEN SOURCE</span>
+        </div>
+        <p>The verification layer for coding agents. Checks what an agent <em>claims</em> it did — tests, files, commits, protected content, secrets — against what actually happened, and makes it correct the record when they disagree.</p>
+        <span class="rlink">github.com/Orthogon-AI-Labs/agent-verify →</span>
+      </a>
+      <a class="repo rv" href="https://github.com/Orthogon-AI-Labs/canon" target="_blank" rel="noopener">
+        <div class="repohead">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+          <span class="rname">canon</span>
+          <span class="chip oss">OPEN SOURCE</span>
+        </div>
+        <p>The canonical setup for Claude Code projects: a human-curated persistence trio, a research-grounded planning loop, and the hooks that keep the discipline from rotting — composed from the best community work, wired together.</p>
+        <span class="rlink">github.com/Orthogon-AI-Labs/canon →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap sect">
+    <div class="shead rv"><span class="snum">05</span><span class="slab">Contact</span></div>
+    <h2 class="stitle rv">Working on something with real stakes?</h2>
+    <p class="ssub rv">We take on a small number of systems where the work is real and the bar is verifiable. If that sounds like your problem, write to us.</p>
+    <div class="ctas rv">
+      <a class="btn primary" href="mailto:noahbfreedman@gmail.com">noahbfreedman@gmail.com <span class="ar">→</span></a>
+      <a class="btn" href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">GitHub <span class="ar">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg class="fmark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M8 4 V24 H28" stroke="#5f9efb" stroke-width="3"/>
+      <path d="M8 14.5 H17.5 V24" stroke="#5f9efb" stroke-width="1.7" opacity="0.65"/>
+    </svg>
+    <span class="cp">© <span id="yr">2026</span> Orthogon AI Labs · New York</span>
+    <div class="flinks">
+      <a href="https://github.com/Orthogon-AI-Labs" target="_blank" rel="noopener">github</a>
+      <a href="mailto:noahbfreedman@gmail.com">email</a>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Orthogon AI Labs","alternateName":"Orthogon AI","url":"https://orthogon-ai-labs.github.io/","sameAs":["https://github.com/Orthogon-AI-Labs"],"description":"An applied AI lab in New York. Multi-agent systems for real work: world models, agent operations, and verification tooling.","foundingDate":"2026","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"}}
+</script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var els = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold: 0.12, rootMargin: '0px 0px -6% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
