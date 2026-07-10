@@ -1,6 +1,8 @@
-# orthogon.site
+# orthogonai.ai
 
-Public website for **Orthogon AI Labs** — a single self-contained `index.html`, no build step, no dependencies.
+Public website for **Orthogon AI Labs** — a single self-contained `index.html`: an animated "Manhattan circuit" canvas field with one line of copy. No build step, no dependencies.
+
+**Live:** https://orthogonai.ai/ (GitHub Pages; any push to `main` auto-deploys in ~1 min.)
 
 ## Run locally
 
@@ -9,16 +11,10 @@ python3 -m http.server 4179
 # → http://localhost:4179
 ```
 
-## Deploy (GitHub Pages, org root site)
+## Domain
 
-```bash
-gh repo create Orthogon-AI-Labs/orthogon-ai-labs.github.io --public --source . --push
-gh api repos/Orthogon-AI-Labs/orthogon-ai-labs.github.io/pages -X POST -f 'source[branch]=main' -f 'source[path]=/'
-# → https://orthogon-ai-labs.github.io
-```
-
-When a custom domain lands, add a `CNAME` file and update the `canonical` / `og:url` tags in `index.html`.
+Custom domain is set via the `CNAME` file (`orthogonai.ai`). DNS lives at GoDaddy: apex A records → GitHub Pages IPs, `www` CNAME → `orthogon-ai-labs.github.io`. If the domain ever changes, update `CNAME` plus the `canonical` / `og:url` / JSON-LD tags in `index.html`.
 
 ## Editing
 
-Everything (CSS, JS, favicon, JSON-LD) lives inline in `index.html`. Content sections in order: hero → focus → systems index → approach → open source → contact. Status chips in the systems index are deliberately conservative — keep claims behind evidence.
+Everything (CSS, canvas animation, favicon, JSON-LD) lives inline in `index.html`. The page is deliberately spare — one tagline, two links, the doctrine strip. Keep claims behind evidence before adding anything.
