@@ -1,6 +1,6 @@
 # orthogonai.ai
 
-Public website for **Orthogon AI Labs** — a single self-contained `index.html`: an animated "Manhattan circuit" canvas field with one line of copy. No build step, no dependencies.
+Public website for **OrthogonAI** — a single self-contained `index.html`: an animated "Manhattan circuit" canvas field with one line of copy. No build step, no dependencies.
 
 **Live:** https://orthogonai.ai/ (GitHub Pages; any push to `main` auto-deploys in ~1 min.)
 
