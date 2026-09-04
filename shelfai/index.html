@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ShelfAI SDK — Public beta</title>
+<meta name="description" content="Install ShelfAI in a few lines to observe model context, tool calls, handoffs, and replayable experiments." />
+<link rel="canonical" href="https://orthogonai.ai/shelfai/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ShelfAI SDK — Public beta" />
+<meta property="og:description" content="See the context your agents actually used. Experiment safely, then fix the source." />
+<meta property="og:url" content="https://orthogonai.ai/shelfai/" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--bg:#07090d;--panel:#0d1118;--line:#202631;--text:#e8ebf1;--muted:#9299a6;--blue:#6ba5ff;--green:#57d6a0;--mono:ui-monospace,'JetBrains Mono','SF Mono',Menlo,monospace;--sans:'Inter',system-ui,sans-serif}
+  *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline} code,pre{font-family:var(--mono)}
+  .top{position:sticky;top:0;z-index:2;border-bottom:1px solid var(--line);background:rgba(7,9,13,.9);backdrop-filter:blur(12px)}
+  .top-inner{max-width:1080px;margin:auto;padding:15px 24px;display:flex;align-items:center;gap:18px}.brand{color:var(--text);font-family:var(--mono);font-size:13px;letter-spacing:.06em}.brand span{color:var(--blue)}.top nav{margin-left:auto;display:flex;gap:20px;font-size:13px}.badge{border:1px solid #285943;background:#0d211a;color:var(--green);padding:3px 9px;border-radius:999px;font:11px var(--mono)}
+  main{max-width:1080px;margin:auto;padding:72px 24px 96px}.eyebrow{font:12px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+  h1{max-width:800px;margin:14px 0 20px;font-size:clamp(38px,7vw,72px);line-height:1.04;letter-spacing:-.045em;font-weight:600}.lede{max-width:720px;color:var(--muted);font-size:19px}.version{margin-top:26px;color:var(--muted);font:12px var(--mono)}
+  .flow{margin:54px 0 74px;padding:24px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,#0d121a,#0a0e14);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font:13px var(--mono)}.node{padding:9px 13px;border:1px solid #2b3442;border-radius:7px;background:#111722}.node.hot{border-color:#315d9c;color:#a9ccff;box-shadow:0 0 22px rgba(65,133,230,.12)}.arrow{color:#596273}
+  section{margin-top:72px} h2{font-size:28px;letter-spacing:-.025em;margin:0 0 10px} h3{font-size:17px;margin:28px 0 10px}.sub{color:var(--muted);max-width:720px;margin:0 0 26px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:22px}.card h3{margin:0 0 14px}.label{color:var(--muted);font:11px var(--mono);text-transform:uppercase;letter-spacing:.1em;margin:18px 0 7px}
+  pre{position:relative;margin:0;overflow:auto;border:1px solid #222a36;background:#080b10;border-radius:8px;padding:17px;color:#cbd6e5;font-size:12px;line-height:1.65;white-space:pre} .accent{color:#8ab9ff}
+  .steps{counter-reset:step;display:grid;gap:14px;max-width:820px}.step{counter-increment:step;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}.step:before{content:counter(step);width:28px;height:28px;display:grid;place-items:center;border:1px solid #315d9c;border-radius:50%;color:#a9ccff;font:12px var(--mono)}.step p{margin:1px 0;color:var(--muted)}
+  .callout{margin-top:26px;border-left:2px solid var(--blue);padding:10px 16px;background:#0b1018;color:var(--muted)}.release-list{display:grid;gap:8px;font:13px var(--mono)}.release-list a{display:block;padding:10px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}
+  footer{border-top:1px solid var(--line);padding:26px 24px;color:#68707e;font:11px var(--mono)}footer div{max-width:1080px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  @media(max-width:760px){main{padding-top:48px}.grid{grid-template-columns:1fr}.top nav a:not(:last-child){display:none}.flow{justify-content:flex-start}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-inner"><a class="brand" href="/"><span>⊥</span> ORTHOGON AI</a><span class="badge">SDK 0.2.0 · beta</span><nav><a href="#install">Install</a><a href="#tools">Tools</a><a href="#replay">Replay</a><a href="#privacy">Privacy</a><a href="mailto:noahbfreedman@gmail.com">Support</a></nav></div></header>
+<main>
+  <div class="eyebrow">ShelfAI · Context IDE for AI agents</div>
+  <h1>See what your agent saw—and where it came from.</h1>
+  <p class="lede">Capture the actual instructions, messages, tool calls, handoffs, and outputs behind every run. Try context changes safely in Workbench, compare the result, and promote only after human approval.</p>
+  <div class="version">PUBLIC BETA · VERSION 0.2.0 · RELEASED 2026-09-04</div>
+
+  <div class="flow" aria-label="Observed agent workflow"><span class="node hot">model request</span><span class="arrow">→</span><span class="node hot">tool call</span><span class="arrow">→</span><span class="node hot">tool result</span><span class="arrow">→</span><span class="node hot">model output</span></div>
+
+  <section id="install">
+    <h2>Install</h2>
+    <p class="sub">The public beta is distributed as versioned, checksum-pinned packages. Choose your runtime and wrap the provider client your application already uses.</p>
+    <div class="grid">
+      <article class="card">
+        <h3>Python</h3>
+        <div class="label">Install 0.2.0</div>
+        <pre>python -m pip install \
+  https://orthogonai.ai/shelfai/releases/0.2.0/shelfai_sdk-0.2.0-py3-none-any.whl</pre>
+        <div class="label">Integrate</div>
+        <pre><span class="accent">from shelfai_sdk import ShelfAI</span>
+
+integration = ShelfAI.integrate(client=client)
+client = integration.client</pre>
+      </article>
+      <article class="card">
+        <h3>Node.js / TypeScript</h3>
+        <div class="label">Install 0.2.0</div>
+        <pre>npm install \
+  https://orthogonai.ai/shelfai/releases/0.2.0/shelfai-sdk-0.2.0.tgz</pre>
+        <div class="label">Integrate</div>
+        <pre><span class="accent">import { ShelfAI } from "@shelfai/sdk";</span>
+
+const integration = ShelfAI.integrate({
+  client: existingModelClient,
+});
+const modelClient = integration.client;</pre>
+      </article>
+    </div>
+    <div class="callout">Important: environment variables alone do not instrument an existing client. Your application must use <code>integration.client</code> after wrapping.</div>
+  </section>
+
+  <section>
+    <h2>Configure</h2>
+    <p class="sub">Use the workspace URL and API key supplied by ShelfAI. Start with metadata-only capture, then deliberately enable Full Capture for replayable content.</p>
+    <pre>SHELFAI_API_URL=&lt;your-shelfai-url&gt;
+SHELFAI_API_KEY=&lt;your-workspace-api-key&gt;
+SHELFAI_AGENT_ID=&lt;stable-agent-name&gt;
+SHELFAI_CAPTURE_MODE=metadata_only</pre>
+  </section>
+
+  <section id="tools">
+    <h2>Capture tools without rewriting them</h2>
+    <p class="sub">Provider-native and supported framework tools are captured automatically. For ordinary functions used as tools, wrap the existing registry once.</p>
+    <div class="grid">
+      <article class="card"><h3>Python</h3><pre>tools = integration.tools(existing_tools)
+result = integration.run(run_workflow, tools)</pre></article>
+      <article class="card"><h3>Node.js</h3><pre>const tools = integration.tools(existingTools);
+const result = await integration.runAsync(
+  () =&gt; runWorkflow(tools)
+);</pre></article>
+    </div>
+    <p class="sub" style="margin-top:18px">ShelfAI records definition → call → result or error, including nested tool calls and the context that consumes each result. It does not require annotations inside individual tools.</p>
+  </section>
+
+  <section>
+    <h2>What happens in a real workflow</h2>
+    <div class="steps">
+      <div class="step"><p>The wrapped model client records the instructions and messages the provider actually receives.</p></div>
+      <div class="step"><p>When the agent chooses a tool, ShelfAI records the real function invocation—not a guess based on text.</p></div>
+      <div class="step"><p>The original tool runs normally. Its result is linked to the next model call that consumes it.</p></div>
+      <div class="step"><p>Workbench shows the observed path and lets a human propose an experiment against the responsible context.</p></div>
+      <div class="step"><p>Replay compares baseline and experimental output. Production source changes require explicit approval.</p></div>
+    </div>
+  </section>
+
+  <section id="replay">
+    <h2>Enable one-click replay</h2>
+    <p class="sub">Give ShelfAI one signed endpoint that runs your existing workflow. Workbench can then apply an approved experiment to one isolated run and return its trace automatically—without experiment IDs or prompt patches in your business logic.</p>
+    <div class="grid">
+      <article class="card">
+        <h3>Python · FastAPI</h3>
+        <pre>integration = ShelfAI.integrate(
+  client=existing_model_client,
+  replay=run_existing_workflow,
+)
+model_client = integration.client
+integration.install(app)</pre>
+      </article>
+      <article class="card">
+        <h3>Node.js · Express</h3>
+        <pre>const integration = ShelfAI.integrate({
+  client: existingModelClient,
+  replay: runExistingWorkflow,
+});
+const modelClient = integration.client;
+app.post(
+  "/shelfai/replay",
+  express.raw({ type: "application/json" }),
+  integration.replayNodeHandler(),
+);</pre>
+      </article>
+    </div>
+    <div class="callout">Set <code>SHELFAI_REPLAY_SECRET</code> to the workspace signing secret and register the endpoint once. Normal capture remains fail-open; authenticated replay is fail-closed.</div>
+  </section>
+
+  <section>
+    <h2>Verify the installation</h2>
+    <p class="sub">The Python package includes two non-destructive checks. Run the first before a model call and the second after one observed run.</p>
+    <pre>shelfai doctor
+shelfai verify-integration --latest</pre>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy and failure behavior</h2>
+    <div class="grid">
+      <article class="card"><h3>Metadata only</h3><p class="sub">Records structure, types, timing, and relationships while withholding prompt, argument, result, and output text.</p></article>
+      <article class="card"><h3>Full Capture</h3><p class="sub">Makes selected context replayable while still applying secret scrubbing. Enable it only under the workspace’s approved data policy.</p></article>
+    </div>
+    <div class="callout">Normal telemetry is fail-open: if ShelfAI is disabled, misconfigured, or unreachable, the original client, tool return values, and application exceptions remain unchanged.</div>
+  </section>
+
+  <section>
+    <h2>Release files</h2>
+    <p class="sub">These are the exact public-beta artifacts for 0.2.0. Verify downloads with the published SHA-256 manifest.</p>
+    <div class="release-list">
+      <a href="/shelfai/releases/0.2.0/shelfai_sdk-0.2.0-py3-none-any.whl">Python wheel · shelfai_sdk-0.2.0-py3-none-any.whl</a>
+      <a href="/shelfai/releases/0.2.0/shelfai_sdk-0.2.0.tar.gz">Python source · shelfai_sdk-0.2.0.tar.gz</a>
+      <a href="/shelfai/releases/0.2.0/shelfai-sdk-0.2.0.tgz">Node package · shelfai-sdk-0.2.0.tgz</a>
+      <a href="/shelfai/releases/0.2.0/SHA256SUMS">SHA256SUMS</a>
+    </div>
+  </section>
+</main>
+<footer><div><span>ShelfAI public beta · subject to your customer agreement</span><span>© 2026 OrthogonAI</span></div></footer>
+</body>
+</html>
