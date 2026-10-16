@@ -29,35 +29,34 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="top-inner"><a class="brand" href="/"><span>⊥</span> ORTHOGON AI</a><span class="badge">SDK 0.2.0 · beta</span><nav><a href="#install">Install</a><a href="#tools">Tools</a><a href="#replay">Replay</a><a href="#privacy">Privacy</a><a href="mailto:noahbfreedman@gmail.com">Support</a></nav></div></header>
+<header class="top"><div class="top-inner"><a class="brand" href="/"><span>⊥</span> ORTHOGON AI</a><span class="badge">SDK 0.3.0 · beta</span><nav><a href="#install">Install</a><a href="#tools">Tools</a><a href="#replay">Replay</a><a href="#privacy">Privacy</a><a href="mailto:noahbfreedman@gmail.com">Support</a></nav></div></header>
 <main>
   <div class="eyebrow">ShelfAI · Context IDE for AI agents</div>
   <h1>See what your agent saw—and where it came from.</h1>
   <p class="lede">Capture the actual instructions, messages, tool calls, handoffs, and outputs behind every run. Try context changes safely in Workbench, compare the result, and promote only after human approval.</p>
-  <div class="version">PUBLIC BETA · VERSION 0.2.0 · RELEASED 2026-09-04</div>
+  <div class="version">PUBLIC BETA · VERSION 0.3.0 · RELEASED 2026-10-16</div>
 
   <div class="flow" aria-label="Observed agent workflow"><span class="node hot">model request</span><span class="arrow">→</span><span class="node hot">tool call</span><span class="arrow">→</span><span class="node hot">tool result</span><span class="arrow">→</span><span class="node hot">model output</span></div>
 
   <section id="install">
     <h2>Install</h2>
-    <p class="sub">The public beta is distributed as versioned, checksum-pinned packages. Choose your runtime and wrap the provider client your application already uses.</p>
+    <p class="sub">The public beta is distributed as versioned, checksum-pinned packages. Python can record an agent with no code changes; in Node, wrap the provider client your application already uses.</p>
     <div class="grid">
       <article class="card">
         <h3>Python</h3>
-        <div class="label">Install 0.2.0</div>
+        <div class="label">Install 0.3.0</div>
         <pre>python -m pip install \
-  https://orthogonai.ai/shelfai/releases/0.2.0/shelfai_sdk-0.2.0-py3-none-any.whl</pre>
-        <div class="label">Integrate</div>
-        <pre><span class="accent">from shelfai_sdk import ShelfAI</span>
-
-integration = ShelfAI.integrate(client=client)
-client = integration.client</pre>
+  https://orthogonai.ai/shelfai/releases/0.3.0/shelfai_sdk-0.3.0-py3-none-any.whl</pre>
+        <div class="label">Run with no code changes</div>
+        <pre>python -m shelfai_sdk.auto your_agent.py</pre>
+        <div class="label">Or add one line to the entry point</div>
+        <pre><span class="accent">import shelfai_sdk.auto</span></pre>
       </article>
       <article class="card">
         <h3>Node.js / TypeScript</h3>
-        <div class="label">Install 0.2.0</div>
+        <div class="label">Install 0.3.0</div>
         <pre>npm install \
-  https://orthogonai.ai/shelfai/releases/0.2.0/shelfai-sdk-0.2.0.tgz</pre>
+  https://orthogonai.ai/shelfai/releases/0.3.0/shelfai-sdk-0.3.0.tgz</pre>
         <div class="label">Integrate</div>
         <pre><span class="accent">import { ShelfAI } from "@shelfai/sdk";</span>
 
@@ -67,7 +66,7 @@ const integration = ShelfAI.integrate({
 const modelClient = integration.client;</pre>
       </article>
     </div>
-    <div class="callout">Important: environment variables alone do not instrument an existing client. Your application must use <code>integration.client</code> after wrapping.</div>
+    <div class="callout">Python records every Anthropic and OpenAI client the agent creates, sync and async. In Node, environment variables alone do not instrument a client: wrap it once with <code>ShelfAI.integrate</code>. ShelfAI instruments the client in place, so calls through the original reference are recorded too.</div>
   </section>
 
   <section>
@@ -83,7 +82,8 @@ SHELFAI_CAPTURE_MODE=metadata_only</pre>
     <h2>Capture tools without rewriting them</h2>
     <p class="sub">Provider-native and supported framework tools are captured automatically. For ordinary functions used as tools, wrap the existing registry once.</p>
     <div class="grid">
-      <article class="card"><h3>Python</h3><pre>tools = integration.tools(existing_tools)
+      <article class="card"><h3>Python</h3><pre>integration = shelfai_sdk.shared_integration()
+tools = integration.tools(existing_tools)
 result = integration.run(run_workflow, tools)</pre></article>
       <article class="card"><h3>Node.js</h3><pre>const tools = integration.tools(existingTools);
 const result = await integration.runAsync(
@@ -110,12 +110,13 @@ const result = await integration.runAsync(
     <div class="grid">
       <article class="card">
         <h3>Python · FastAPI</h3>
-        <pre>integration = ShelfAI.integrate(
-  client=existing_model_client,
+        <pre><span class="accent">import shelfai_sdk</span>
+
+shelfai_sdk.install(
+  app,
   replay=run_existing_workflow,
-)
-model_client = integration.client
-integration.install(app)</pre>
+)</pre>
+        <p class="sub">Or name a script to rerun with <code>SHELFAI_REPLAY="scripts/run_agent.py --args"</code> and call <code>shelfai_sdk.install(app)</code>.</p>
       </article>
       <article class="card">
         <h3>Node.js · Express</h3>
@@ -136,9 +137,9 @@ app.post(
 
   <section>
     <h2>Verify the installation</h2>
-    <p class="sub">The Python package includes two non-destructive checks. Run the first before a model call and the second after one observed run.</p>
+    <p class="sub">The Python package includes two non-destructive checks. Run the first before a model call and the second after one observed run, using that run’s trace ID from <code>shelfai_sdk.last_trace_id()</code> or Workbench.</p>
     <pre>shelfai doctor
-shelfai verify-integration --latest</pre>
+shelfai verify-integration --trace-id &lt;trace-id&gt;</pre>
   </section>
 
   <section id="privacy">
@@ -152,13 +153,14 @@ shelfai verify-integration --latest</pre>
 
   <section>
     <h2>Release files</h2>
-    <p class="sub">These are the exact public-beta artifacts for 0.2.0. Verify downloads with the published SHA-256 manifest.</p>
+    <p class="sub">These are the exact public-beta artifacts for 0.3.0. Verify downloads with the published SHA-256 manifest.</p>
     <div class="release-list">
-      <a href="/shelfai/releases/0.2.0/shelfai_sdk-0.2.0-py3-none-any.whl">Python wheel · shelfai_sdk-0.2.0-py3-none-any.whl</a>
-      <a href="/shelfai/releases/0.2.0/shelfai_sdk-0.2.0.tar.gz">Python source · shelfai_sdk-0.2.0.tar.gz</a>
-      <a href="/shelfai/releases/0.2.0/shelfai-sdk-0.2.0.tgz">Node package · shelfai-sdk-0.2.0.tgz</a>
-      <a href="/shelfai/releases/0.2.0/SHA256SUMS">SHA256SUMS</a>
+      <a href="/shelfai/releases/0.3.0/shelfai_sdk-0.3.0-py3-none-any.whl">Python wheel · shelfai_sdk-0.3.0-py3-none-any.whl</a>
+      <a href="/shelfai/releases/0.3.0/shelfai_sdk-0.3.0.tar.gz">Python source · shelfai_sdk-0.3.0.tar.gz</a>
+      <a href="/shelfai/releases/0.3.0/shelfai-sdk-0.3.0.tgz">Node package · shelfai-sdk-0.3.0.tgz</a>
+      <a href="/shelfai/releases/0.3.0/SHA256SUMS">SHA256SUMS</a>
     </div>
+    <p class="sub" style="margin-top:18px">Earlier release: <a href="/shelfai/releases/0.2.0/SHA256SUMS">0.2.0</a> (2026-09-04).</p>
   </section>
 </main>
 <footer><div><span>ShelfAI public beta · subject to your customer agreement</span><span>© 2026 OrthogonAI</span></div></footer>
